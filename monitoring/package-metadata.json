@@ -6,8 +6,8 @@
   "version": "0.0.1",
   "dependencies": [],
   "environmentVariables": {
-    "GF_SECURITY_ADMIN_USER": "admin",
-    "GF_SECURITY_ADMIN_PASSWORD": "sn213£LO2x578547648`jljgh",
+    "GF_SECURITY_ADMIN_USER": "adminmdigiserver",
+    "GF_SECURITY_ADMIN_PASSWORD": "7#h[0gkeweN%:7Vq",
     "GF_SMTP_ENABLED": "false",
     "GF_SMTP_HOST": "localhost:25",
     "GF_SMTP_USER": "",

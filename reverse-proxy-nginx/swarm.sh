@@ -7,7 +7,7 @@ declare UTILS_PATH=""
 declare TIMESTAMP
 declare TIMESTAMPED_NGINX
 declare SERVICE_NAMES=()
-declare STACK="reverse-proxy"
+declare STACK="reverse-proxy-nginx"
 
 function init_vars() {
   ACTION=$1
