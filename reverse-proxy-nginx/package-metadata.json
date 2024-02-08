@@ -11,7 +11,7 @@
     "NGINX_CPU_RESERVE": "0.05",
     "NGINX_MEMORY_LIMIT": "3G",
     "NGINX_MEMORY_RESERVE": "500M",
-    "DOMAIN_NAME": "sedish.live",
+    "DOMAIN_NAME": "monitoring.uwdigi.org",
     "SUBDOMAINS": "",
     "RENEWAL_EMAIL": "dummy@uw.org",
     "STAGING": "true",
