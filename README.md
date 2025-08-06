@@ -1,6 +1,6 @@
 # DIGI Monitoring System
 
-This repository contains the monitoring stack used by the [DIGI](https://digi.uw.edu/). It includes configurations and tooling to deploy services such as Prometheus, Grafana, and an NGINX reverse proxy, as well as other exporters and components for monitoring.
+This repository contains the monitoring stack used by [DIGI](https://digi.uw.edu/). It includes configurations and tooling to deploy services such as Prometheus, Grafana, and an NGINX reverse proxy, as well as other exporters and components for monitoring.
 
 ---
 
