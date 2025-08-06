@@ -2,107 +2,150 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: "prometheus"
-    static_configs:
-      - targets: ["prometheus:9090"]
 
-  - job_name: "grafana"
+  #- job_name: "prometheus"
+   # static_configs:
+      #- targets: ["prometheus:9090"]
+
+  - job_name: "Zimbabwe HIE"
     static_configs:
-      - targets: ["grafana:3000"]
+      - targets: ["nodeexporter.zimhie.uwdigi.org"]
+      
+  - job_name: "cht malawi"
+    static_configs:
+     - targets: ["chtmw.uwdigi.org"]
+
+  - job_name: "blackbox_ssl_check"
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - http://openhimconsole.sedish.live
+        - https://demo.openelis-global.org
+        - https://openhimconsole.haitihie.uwdigi.org
+        - https://docs.openelis-global.org
+        - https://openelis-global.org
+        - https://digi.uw.edu
+        - https://isanteplus.sedish.live/openmrs
+        - https://jamcht.uwdigi.org
+        - https://openclientregistry.org
+        - https://globalopenfacilityregistry.org
+        - https://uwdigi.atlassian.net
+        - https://testing.openelis-global.org
+        - https:/34.219.150.58
+        - https:/hub.openelis-global.org
+
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox.monitoring.uwdigi.org
+
+  #- job_name: "open Elis metrics"
+    #static_configs:
+     #- targets: ["testing.openelis-global.org/node-exporter"]
+  
+
+  #- job_name: "grafana"
+    #static_configs:
+      #- targets: ["grafana:3000"]
 
   # Create a job for Docker daemons.
-  - job_name: "docker"
-    dockerswarm_sd_configs:
-      - host: unix:///var/run/docker.sock
-        role: nodes
-    relabel_configs:
+  #- job_name: "docker"
+    #dockerswarm_sd_configs:
+      #- host: unix:///var/run/docker.sock
+        #role: nodes
+    #relabel_configs:
       # Fetch metrics on port 9323.
-      - source_labels: [__meta_dockerswarm_node_address]
-        target_label: __address__
-        replacement: $1:9323
+      #- source_labels: [__meta_dockerswarm_node_address]
+       # target_label: __address__
+        #replacement: $1:9323
       # Set hostname as instance label
-      - source_labels: [__meta_dockerswarm_node_hostname]
-        target_label: instance
+      #- source_labels: [__meta_dockerswarm_node_hostname]
+        #target_label: instance
 
   # Create a job for reading metrics from nodes
-  - job_name: "node-exporter"
-    dns_sd_configs:
-      - names:
-          - "tasks.node-exporter"
-        type: "A"
-        port: 9100
+  #- job_name: "node-exporter"
+   # dns_sd_configs:
+     # - names:
+         # - "tasks.node-exporter"
+       # type: "A"
+       # port: 9100
 
   # Create a job for reading metrics from containers
-  - job_name: "cadvisor"
-    dns_sd_configs:
-      - names:
-          - "tasks.cadvisor"
-        type: "A"
-        port: 8080
+  #- job_name: "cadvisor"
+    #dns_sd_configs:
+      #- names:
+         # - "tasks.cadvisor"
+       #type: "A"
+        #port: 8080
 
   # Create a job for Docker Swarm services with particular labels (one target for the whole service, possibly multiple containers)
-  - job_name: "dockerswarm-services"
-    tls_config:
-      insecure_skip_verify: true
-    dockerswarm_sd_configs:
-      - host: unix:///var/run/docker.sock
-        role: services
-    relabel_configs:
+  #- job_name: "dockerswarm-services"
+    #tls_config:
+      #insecure_skip_verify: true
+    #dockerswarm_sd_configs:
+      #- host: unix:///var/run/docker.sock
+        #role: services
+    #relabel_configs:
       # Only keep services that have a `prometheus-job-service` label.
-      - source_labels: [__meta_dockerswarm_service_label_prometheus_job_service]
-        regex: .+
-        action: keep
+      #- source_labels: [__meta_dockerswarm_service_label_prometheus_job_service]
+       # regex: .+
+        #action: keep
       # Use the prometheus-job Swarm label as Prometheus job label.
-      - source_labels: [__meta_dockerswarm_service_label_prometheus_job_service]
-        target_label: job
+      #- source_labels: [__meta_dockerswarm_service_label_prometheus_job_service]
+        #target_label: job
       # Use the prometheus-address Swarm label as the target address for swarm service.
-      - source_labels: [__meta_dockerswarm_service_label_prometheus_address]
-        target_label: __address__
+      #- source_labels: [__meta_dockerswarm_service_label_prometheus_address]
+        #target_label: __address__
       # Use the prometheus-scheme label to set the connection scheme (http or https), defaults to http if no label is present
-      - source_labels: [__meta_dockerswarm_service_label_prometheus_scheme]
-        regex: (.+)
-        target_label: __scheme__
+      #- source_labels: [__meta_dockerswarm_service_label_prometheus_scheme]
+        #regex: (.+)
+        #target_label: __scheme__
       # Use the prometheus-metrics-path label to set the metric url path, defaults to /metrics if no label is present
-      - source_labels:
-          [__meta_dockerswarm_service_label_prometheus_metrics_path]
-        regex: (.+)
-        target_label: __metrics_path__
+      #- source_labels:
+          #[__meta_dockerswarm_service_label_prometheus_metrics_path]
+        #regex: (.+)
+        #target_label: __metrics_path__
 
   # Create a job for Docker Swarm container with particular labels (one target per container/task)
-  - job_name: "dockerswarm-tasks"
-    tls_config:
-      insecure_skip_verify: true
-    dockerswarm_sd_configs:
-      - host: unix:///var/run/docker.sock
-        role: tasks
-    relabel_configs:
+  #- job_name: "dockerswarm-tasks"
+    #tls_config:
+      #insecure_skip_verify: true
+    #dockerswarm_sd_configs:
+      #- host: unix:///var/run/docker.sock
+        #role: tasks
+    #relabel_configs:
       # Only keep containers that should be running.
-      - source_labels: [__meta_dockerswarm_task_desired_state]
-        regex: running
-        action: keep
+      #- source_labels: [__meta_dockerswarm_task_desired_state]
+        #regex: running
+       # action: keep
       # Only keep containers that have a `prometheus-job-task` label.
-      - source_labels: [__meta_dockerswarm_service_label_prometheus_job_task]
-        regex: .+
-        action: keep
+      #- source_labels: [__meta_dockerswarm_service_label_prometheus_job_task]
+        #regex: .+
+        #action: keep
       # Only keep containers on the prometheus_public network.
-      - source_labels: [__meta_dockerswarm_network_name]
-        regex: prometheus_public
-        action: keep
+      #- source_labels: [__meta_dockerswarm_network_name]
+        #regex: prometheus_public
+        #action: keep
       # Use the prometheus-job Swarm label as Prometheus job label.
-      - source_labels: [__meta_dockerswarm_service_label_prometheus_job_task]
-        target_label: job
+     # - source_labels: [__meta_dockerswarm_service_label_prometheus_job_task]
+        #target_label: job
       # Use the prometheus-scheme label to set the connection scheme (http or https), defaults to http if no label is present
-      - source_labels: [__meta_dockerswarm_service_label_prometheus_scheme]
-        regex: (.+)
-        target_label: __scheme__
+      #- source_labels: [__meta_dockerswarm_service_label_prometheus_scheme]
+        #regex: (.+)
+        #target_label: __scheme__
       # Use the prometheus-port label to override the target ports, defaults to all exposed ports for the container if no label is present
-      - source_labels:
-          [__address__, __meta_dockerswarm_service_label_prometheus_port]
-        regex: (.+):.+;(.+)
-        replacement: $1:$2
-        target_label: __address__
+      #- source_labels:
+          #[__address__, __meta_dockerswarm_service_label_prometheus_port]
+        #regex: (.+):.+;(.+)
+        #replacement: $1:$2
+        #target_label: __address__
       # Use the prometheus-metrics-path label to set the metric url path, defaults to /metrics if no label is present
-      - source_labels:
-          [__meta_dockerswarm_service_label_prometheus_metrics_path]
-        regex: (.+)
-        target_label: __metrics_path__
+      #- source_labels:
+          #[__meta_dockerswarm_service_label_prometheus_metrics_path]
+        #regex: (.+)
+        #target_label: __metrics_path__

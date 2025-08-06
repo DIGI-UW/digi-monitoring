@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  blackbox:
+    image: prom/blackbox-exporter:latest
+    container_name: blackbox_exporter
+    configs:
+      - target: /config/blackbox.yml
+        source: blackbox.yml
+    ports:
+      - "9115:9115"
+    networks:
+      public:
+
+configs:
+  blackbox.yml:
+    file: ./config/blackbox.yml
+    name: blackbox.yml
+    labels:
+      name: blackbox
+networks:
+  public:
+    name: reverse-proxy_public
+    external: true

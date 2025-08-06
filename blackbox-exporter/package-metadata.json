@@ -1,0 +1,12 @@
+{
+  "id": "blackbox-exporter",
+  "name": "blackbox-exporter",
+  "description": "blackbox-exporter",
+  "type": "infrastructure",
+  "version": "0.0.0",
+  "dependencies": [],
+  "environmentVariables": {
+
+
+  }
+}

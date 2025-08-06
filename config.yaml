@@ -6,6 +6,7 @@ packages:
   # I-TECH
   - monitoring
   - reverse-proxy-nginx
+  - blackbox-exporter
 
 
 
