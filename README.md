@@ -1,15 +1,13 @@
 # DIGI Monitoring System
 
-This repository contains the monitoring stack used by the [DIGI Project](https://github.com/DIGI-UW). It includes configurations and tooling to deploy observability services such as Prometheus, Grafana, and NGINX reverse proxy, as well as other exporters and components for monitoring
+This repository contains the monitoring stack used by the [DIGI](https://digi.uw.edu/). It includes configurations and tooling to deploy services such as Prometheus, Grafana, and NGINX reverse proxy, as well as other exporters and components for monitoring.
 
 ## Table of Contents
 
 - [Overview](#overview)
 - [Requirements](#requirements)
 - [Setup](#setup)
-- [Running the Services](#running-the-services)
-- [Service Management](#service-management)
-- [License](#license)
+- [Manage the services](#Manage-the-services)
 
 ---
 
@@ -30,7 +28,7 @@ Key components:
 Before proceeding, ensure you have the following installed:
 
 - [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
+- [Docker swarm](https://docs.docker.com/engine/swarm/)
 - `bash` (for script execution)
 - `instant` CLI (DIGI-specific packaging tool)
 - `.env` file with required environment variables
@@ -44,3 +42,21 @@ Clone the repository:
 ```bash
 git clone https://github.com/DIGI-UW/digi-monitoring.git
 cd digi-monitoring
+
+---
+
+## Manage-the-services
+
+Open the mk.sh script.
+
+Uncomment the service lines you'd like to (re)deploy.
+
+For example 
+    ./instant package remove -n reverse-proxy-nginx --env-file .env
+
+    ./instant package init -n reverse-proxy-nginx --env-file .env
+
+Run the script: 
+     
+     sh mk.sh
+
